@@ -9,12 +9,12 @@ def sms_reply():
 
     # Get the message the user sent our Twilio number
     body = request.values.get('Body', None)
-
+    body = body.lower()
     # Start our TwiML response
     resp = MessagingResponse()
 
     # Determine the right reply for this message
-    if body == 'hello':
+    if 'hello' in body:
         resp.message("You're a ho!")
     elif body == 'bye':
         resp.message("Bye bitch!")
