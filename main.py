@@ -12,7 +12,7 @@ def sms_reply():
     body = request.values.get('Body', None)
     body = body.lower()
 
-    resp = demo()
+    resp = demo(body)
 
     # Start our TwiML response
     # resp = MessagingResponse()
