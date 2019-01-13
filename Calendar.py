@@ -3,6 +3,8 @@ import datetime
 from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
+import pymysql
+import json
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
@@ -57,5 +59,36 @@ def getEvents(creds):
         # if 'description' in event:
         #     print(event['description'])
 
+def test():
+    connection = pymysql.connect(host='35.236.23.230',
+                             user='root',
+                             password='',
+                             db='businesses')
+    crsr = connection.cursor()
+
+    body = 'subway message hello'
+    splitString = body.split()
+    count = 0
+    businessName = ""
+    print(splitString)
+    for i in splitString:
+        if i == 'message':
+            break
+        if count != 0:
+            businessName = businessName + ' '
+        businessName = businessName + i
+        count = count + 1
+
+    entry = ("SELECT * FROM data WHERE name='%s'" % businessName)
+    crsr.execute(entry)
+    records = crsr.fetchall()[0]
+    print(records[0])
+    # name, phone, email, EId, cal, menu
+    json1_data = json.loads(records[4])
+    datapoints = json1_data
+
+    print(datapoints)
+
 if __name__ == '__main__':
-    getCredentials()
+    # getCredentials()
+    test()

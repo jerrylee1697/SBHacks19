@@ -25,6 +25,7 @@ def sms_reply():
                              db='businesses')
     crsr = connection.cursor()
 
+    body = 'subway message hello'
     splitString = body.split()
     count = 0
     businessName = ""
@@ -36,9 +37,13 @@ def sms_reply():
         businessName = businessName + i
         count = count + 1
 
-    entry = "SELECT * FROM data WHERE name=businessName"
+    entry = ("SELECT * FROM data WHERE name='%s'" % businessName)
     crsr.execute(entry)
-    records = crsr.fetchall()
+    records = crsr.fetchall()[0]
+    # Uses index[0] because is tuple of tuple
+    # Note: if you are looking at this, GL
+    
+    # print(records[0])
 
     # name, phone, email, EId, cal, menu
     json1_data = json.loads(records[4])
