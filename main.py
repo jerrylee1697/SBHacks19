@@ -1,6 +1,8 @@
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
 import demo
+import json
+import datetime
 
 app = Flask(__name__)
 
@@ -23,8 +25,45 @@ def sms_reply():
                              db='businesses')
     crsr = connection.cursor()
 
-    # if 'hello' in body:
-    #     msg = "Hello! Thank you for contacting Hooties! How may I assist you today?"
+    splitString = body.split()
+    count = 0
+    businessName = ""
+    for i in splitString:
+        if i == 'message':
+            break
+        if count != 0:
+            businessName = businessName + ' '
+        businessName = businessName + i
+        count = count + 1
+
+    entry = "SELECT * FROM data WHERE name=businessName"
+    crsr.execute(entry)
+    records = crsr.fetchall()
+
+    # name, phone, email, EId, cal, menu
+    json1_data = json.loads(records[4])
+    datapoints = json1_data
+    
+    if 'hello' in body:
+        msg = "Hello! Thank you for contacting Hooties! How may I assist you today?"
+    if 'menu' in splitString:
+        msg = "Today's menu is: \n"
+        msg = msg + records[5]
+    if 'hour' in splitString or 'hours' in splitString: 
+        if datetime.date in datapoints:
+            openTime = datapoints[datetime.date][0]
+            closeTime = datapoints[datetime.date][1]
+            msg = 'Today\'s hours are ' + openTime + ' to ' + closeTime + '.'
+        else:
+            msg = 'We are closed for today.'
+    if 'special' in splitString or 'specials' in splitString:
+        if datetime.date in datapoints:
+            specials = datapoints[datetime.date][2]
+            msg = 'Today\'s specials: ' + specials
+        else:
+            msg = 'There are no special\'s today'
+
+    
     # elif 'menu' in body:
     #     msg = "Todays menu is:\n 1. Raw Pork\n 2. Raw Chicken\n 3. Well Done A5 Wagyu"
     # elif 'hours' in body:

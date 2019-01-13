@@ -20,7 +20,7 @@ class Business:
         self.menu = menu
         self.JSON = JSON
 
-def retrieveFromDB():
+def sendToDB():
     # bus = Business('SubREEE', 1234567890, 'subway@aol.com', 5)
     connection = pymysql.connect(host='35.236.23.230',
                              user='root',
@@ -74,9 +74,9 @@ def getEvents(creds):
     events = events_result.get('items', [])
 
     if not events:
-        print('No upcoming events found.')
+        print('No upcoming open days.')
 
-    daysOpen = []
+    daysOpen = {}
     for event in events:
         # start = event['start'].get('dateTime', event['start'].get('date'))
         # Start Info
@@ -88,12 +88,25 @@ def getEvents(creds):
         if date == 'one}': continue
         if 'description' in event:
             # print(event['description'])
-            daysOpen.append({date : [startTime, endTime, event['description']]})
+            daysOpen[date] = [startTime, endTime, event['description']]
         else:
-            daysOpen.append({date : [startTime, endTime, 'No Specials Today']})
+            daysOpen[date] = [startTime, endTime, 'No Specials Today']
     # print(daysOpen)
     JSONFile = json.dumps(daysOpen, sort_keys=False, indent=4)
+    json1_data = json.loads(JSONFile)
+    datapoints = json1_data
+    # print(json1_data)
+    # print(datapoints['2019-01-16'])
+    if datetime.date in datapoints:
+        print(datapoints)
+    else:
+        print('Closed for today.')
+
     return JSONFile
+
+
+
+
 if __name__ == '__main__':
     # getCredentials()
-    retrieveFromDB()
+    sendToDB()
