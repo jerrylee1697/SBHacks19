@@ -79,6 +79,10 @@ def sms_reply():
         msg = 'Todays specials are: $2 Tacos'
     elif 'happy hour' in body:
         msg = 'Happy hour is from 1pm to 3pm. The happy hour deal is: buy 1, you buy another'
+    elif 'wait' in body:
+        msg = 'The current wait in line is about: 45 minutes'
+    elif 'vegetarian' in body:
+        msg = 'We do serve vegetarian food'
     else:
         msg = 'Sorry, could you type that more clearly please?'
 
