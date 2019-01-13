@@ -4,6 +4,9 @@ from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
 import pymysql
+import json
+
+
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
@@ -22,14 +25,18 @@ def retrieveFromDB():
                              password='',
                              db='businesses')
     crsr = connection.cursor()
-    crsr.execute("SELECT * FROM entries")  
-    ans= crsr.fetchall()  
-    for i in ans:
-        print(i)
-    
+    crsr.execute("SELECT cred FROM entries")  
+    ans = crsr.fetchall()  
+    # for json in ans:
+        # if json is not None:
+        #     print(json)
+    if ans is not None:
+        print(ans)
+        
+        getCredentials(json.dumps(ans))
 
 
-def getCredentials():
+def getCredentials(json):
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
@@ -38,7 +45,8 @@ def getCredentials():
     # time.
     store = file.Storage('token.json')
     creds = store.get()
-    print('Type: ', type(creds))
+    # print('Type: ', type(creds))
+
     if not creds or creds.invalid:
         flow = client.flow_from_clientsecrets('credentials.json', SCOPES)
         creds = tools.run_flow(flow, store)
@@ -57,10 +65,16 @@ def getEvents(creds):
 
     if not events:
         print('No upcoming events found.')
+
+    daysOpen = {}
     for event in events:
-        start = event['start'].get('dateTime', event['start'].get('date'))
-        # description = event['description']
-        print(start, event['summary'])
+        # start = event['start'].get('dateTime', event['start'].get('date'))
+        # Start Info
+        startInfo = str({event['start'].get('dateTime')})
+        endInfo = str({event['end'].get('dateTime')})
+        date = startInfo[0:10]
+        startTime = startInfo[11:16]
+        endTime = endInfo[11:16]
         if 'description' in event:
             print(event['description'])
 
