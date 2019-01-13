@@ -13,76 +13,76 @@ def sms_reply():
 
     # Get the message the user sent our Twilio number
     body = request.values.get('Body', None)
-    if body != None:
-        body = body.lower()
+    # if body != None:
+    body = body.lower()
 
-        # resp = demo(body)
+    # resp = demo(body)
 
-        # Start our TwiML response
-        resp = MessagingResponse()
+    # Start our TwiML response
+    resp = MessagingResponse()
 
-        connection = pymysql.connect(host='35.236.23.230',
-                                user='root',
-                                password='',
-                                db='businesses')
-        crsr = connection.cursor()
+    # connection = pymysql.connect(host='35.236.23.230',
+    #                         user='root',
+    #                         password='',
+    #                         db='businesses')
+    # crsr = connection.cursor()
 
-        # body = 'subway message hello'
-        splitString = body.split()
-        count = 0
-        businessName = ""
-        for i in splitString:
-            if i == 'message':
-                break
-            if count != 0:
-                businessName = businessName + ' '
-            businessName = businessName + i
-            count = count + 1
+    # # body = 'subway message hello'
+    # splitString = body.split()
+    # count = 0
+    # businessName = ""
+    # for i in splitString:
+    #     if i == 'message':
+    #         break
+    #     if count != 0:
+    #         businessName = businessName + ' '
+    #     businessName = businessName + i
+    #     count = count + 1
 
-        entry = ("SELECT * FROM data WHERE name='%s'" % businessName)
-        crsr.execute(entry)
-        records = crsr.fetchall()[0]
-        # Uses index[0] because is tuple of tuple
-        # Note: if you are looking at this, GL
+    # entry = ("SELECT * FROM data WHERE name='%s'" % businessName)
+    # crsr.execute(entry)
+    # records = crsr.fetchall()[0]
+    # # Uses index[0] because is tuple of tuple
+    # # Note: if you are looking at this, GL
 
-        # print(records[0])
+    # # print(records[0])
 
-        # name, phone, email, EId, cal, menu
-        json1_data = json.loads(records[4])
-        datapoints = json1_data
-        
-        if 'hello' in body:
-            msg = "Hello! Thank you for contacting Hooties! How may I assist you today?"
-        if 'menu' in splitString:
-            msg = "Today's menu is: \n"
-            msg = msg + records[5]
-        if 'hour' in splitString or 'hours' in splitString: 
-            if datetime.date in datapoints:
-                openTime = datapoints[datetime.date][0]
-                closeTime = datapoints[datetime.date][1]
-                msg = 'Today\'s hours are ' + openTime + ' to ' + closeTime + '.'
-            else:
-                msg = 'We are closed for today.'
-        if 'special' in splitString or 'specials' in splitString:
-            if datetime.date in datapoints:
-                specials = datapoints[datetime.date][2]
-                msg = 'Today\'s specials: ' + specials
-            else:
-                msg = 'There are no special\'s today'
+    # # name, phone, email, EId, cal, menu
+    # json1_data = json.loads(records[4])
+    # datapoints = json1_data
+    
+    if 'hello' in body:
+        msg = "Hello! Thank you for contacting Hooties! How may I assist you today?"
+    # if 'menu' in splitString:
+    #     msg = "Today's menu is: \n"
+    #     msg = msg + records[5]
+    # if 'hour' in splitString or 'hours' in splitString: 
+    #     if datetime.date in datapoints:
+    #         openTime = datapoints[datetime.date][0]
+    #         closeTime = datapoints[datetime.date][1]
+    #         msg = 'Today\'s hours are ' + openTime + ' to ' + closeTime + '.'
+    #     else:
+    #         msg = 'We are closed for today.'
+    # if 'special' in splitString or 'specials' in splitString:
+    #     if datetime.date in datapoints:
+    #         specials = datapoints[datetime.date][2]
+    #         msg = 'Today\'s specials: ' + specials
+    #     else:
+    #         msg = 'There are no special\'s today'
 
-        
-        # elif 'menu' in body:
-        #     msg = "Todays menu is:\n 1. Raw Pork\n 2. Raw Chicken\n 3. Well Done A5 Wagyu"
-        # elif 'hours' in body:
-        #     msg = "Todays hours are from 9am to 9pm."
-        # elif 'specials' in body:
-        #     msg = 'Todays specials are: $5 Tacos'
-        # elif 'happy hour' in body:
-        #     msg = 'Happy hour is from 1pm to 3pm. The happy hour deal is: buy 1, you buy another'
-        # else:
-        #     msg = 'Sorry, could you type that more clearly please?'
+    
+    elif 'menu' in body:
+        msg = "Todays menu is:\n 1. Grilled Pork\n 2. Lemon Chicken\n 3. A5 Wagyu Steak"
+    elif 'hours' in body:
+        msg = "Todays hours are from 9am to 9pm."
+    elif 'specials' in body:
+        msg = 'Todays specials are: $2 Tacos'
+    elif 'happy hour' in body:
+        msg = 'Happy hour is from 1pm to 3pm. The happy hour deal is: buy 1, you buy another'
+    else:
+        msg = 'Sorry, could you type that more clearly please?'
 
-        resp.message(msg)
+    resp.message(msg)
     # # Determine the right reply for this message
     # if 'hello' in body:
     #     resp.message("You're a ho!")
