@@ -40,7 +40,18 @@ def getEvents(creds):
         start = event['start'].get('dateTime')
         end = event['end'].get('dateTime', event['end'].get('date'))
         # description = event['description']
-        print('start: ', str(event['start'].get('dateTime'))[0:5])
+        # print('start: ', str(event['start'].get('dateTime'))[0:10])
+        startInfo = str({event['start'].get('dateTime')})
+        endInfo = str({event['end'].get('dateTime')})
+        date = startInfo[0:12]
+        startTime = startInfo[13:18]
+        endTime = endInfo[13:18]
+        print(date)
+        if 'description' in event:
+            print([date, [startTime, endTime, event['description']]])
+        else:
+            print([date, [startTime, endTime, None]])
+        # print(datetime.datetime.today().strftime('%Y-%m-%d'))
         # print('end: ', end, ' ', event['summary'])
         # print('end: ', event['end'].get('dateTime'), ' ', event['end'].get('date'))
         # if 'description' in event:

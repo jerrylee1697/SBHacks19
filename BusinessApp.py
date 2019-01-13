@@ -25,14 +25,12 @@ def retrieveFromDB():
                              password='',
                              db='businesses')
     crsr = connection.cursor()
-    crsr.execute("SELECT cred FROM entries")  
+    crsr.execute("SELECT * FROM entries")  
     ans = crsr.fetchall()  
     # for json in ans:
         # if json is not None:
         #     print(json)
     if ans is not None:
-        print(ans)
-        
         getCredentials(json.dumps(ans))
 
 
@@ -59,24 +57,30 @@ def getEvents(creds):
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     print('Getting the upcoming 10 events')
     events_result = service.events().list(calendarId='primary', timeMin=now,
-                                        maxResults=10, singleEvents=True,
+                                        maxResults=1000, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
     if not events:
         print('No upcoming events found.')
 
-    daysOpen = {}
+    daysOpen = []
     for event in events:
         # start = event['start'].get('dateTime', event['start'].get('date'))
         # Start Info
         startInfo = str({event['start'].get('dateTime')})
         endInfo = str({event['end'].get('dateTime')})
-        date = startInfo[0:10]
-        startTime = startInfo[11:16]
-        endTime = endInfo[11:16]
+        date = startInfo[2:12]
+        startTime = startInfo[13:18]
+        endTime = endInfo[13:18]
+        if date == 'one}': continue
         if 'description' in event:
-            print(event['description'])
+            # print(event['description'])
+            daysOpen.append({date : [startTime, endTime, event['description']]})
+        else:
+            daysOpen.append({date : [startTime, endTime, 'No Specials Today']})
+    # print(daysOpen)
+    print(json.dumps(daysOpen, sort_keys=False, indent=4))
 
 if __name__ == '__main__':
     # getCredentials()
