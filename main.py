@@ -26,7 +26,7 @@ def sms_reply():
                              db='businesses')
     crsr = connection.cursor()
 
-    body = 'subway message hello'
+    # body = 'subway message hello'
     splitString = body.split()
     count = 0
     businessName = ""

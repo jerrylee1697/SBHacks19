@@ -27,11 +27,11 @@ def sendToDB():
                              password='',
                              db='businesses')
     crsr = connection.cursor()
-    name = input('Business Name: ')
+    name = input('Business Name: ').lower()
     phone = input('Phone Number: ')
-    email = input('Email: ')
+    email = input('Email: ').lower()
     EID = input('EID: ')
-    menu = input('Menu: ')
+    menu = input('Menu: ').lower()
     JSON = getCredentials()
     sql = "INSERT INTO data (name, phone, email, EId, cal, menu) VALUES (%s, %s, %s, %s, %s, %s)"
     val = (name, phone, email, EID, JSON, menu)
