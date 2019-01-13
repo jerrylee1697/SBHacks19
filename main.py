@@ -13,7 +13,8 @@ def sms_reply():
 
     # Get the message the user sent our Twilio number
     body = request.values.get('Body', None)
-    body = body.lower()
+    if body != None:
+        body = body.lower()
 
     # resp = demo(body)
 
