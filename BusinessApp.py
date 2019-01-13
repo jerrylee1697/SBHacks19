@@ -12,29 +12,41 @@ import json
 SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
 
 class Business:
-    def __init__(self, name, phone, email, EID):
+    def __init__(self, name, phone, email, EID, menu, JSON):
         self.name = name
         self.phone = phone
         self.email = email
         self.EID = EID
+        self.menu = menu
+        self.JSON = JSON
 
 def retrieveFromDB():
-    bus = Business('SubREEE', 1234567890, 'subway@aol.com', 5)
+    # bus = Business('SubREEE', 1234567890, 'subway@aol.com', 5)
     connection = pymysql.connect(host='35.236.23.230',
                              user='root',
                              password='',
                              db='businesses')
     crsr = connection.cursor()
-    crsr.execute("SELECT * FROM entries")  
-    ans = crsr.fetchall()  
+    name = input('Business Name: ')
+    phone = input('Phone Number: ')
+    email = input('Email: ')
+    EID = input('EID: ')
+    menu = input('Menu: ')
+    JSON = getCredentials()
+    sql = "INSERT INTO data (name, phone, email, EId, cal, menu) VALUES (%s, %s, %s, %s, %s, %s)"
+    val = (name, phone, email, EID, JSON, menu)
+    crsr.execute(sql, val)
+    connection.commit()
+    # crsr.execute("SELECT * FROM entries")  
+    # ans = crsr.fetchall()  
     # for json in ans:
         # if json is not None:
         #     print(json)
-    if ans is not None:
-        getCredentials(json.dumps(ans))
+    # if ans is not None:
+    #     getCredentials(json.dumps(ans))
 
 
-def getCredentials(json):
+def getCredentials():
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
@@ -48,7 +60,7 @@ def getCredentials(json):
     if not creds or creds.invalid:
         flow = client.flow_from_clientsecrets('credentials.json', SCOPES)
         creds = tools.run_flow(flow, store)
-    getEvents(creds)
+    return getEvents(creds)
 
 def getEvents(creds):
     service = build('calendar', 'v3', http=creds.authorize(Http()))
@@ -80,8 +92,8 @@ def getEvents(creds):
         else:
             daysOpen.append({date : [startTime, endTime, 'No Specials Today']})
     # print(daysOpen)
-    print(json.dumps(daysOpen, sort_keys=False, indent=4))
-
+    JSONFile = json.dumps(daysOpen, sort_keys=False, indent=4)
+    return JSONFile
 if __name__ == '__main__':
     # getCredentials()
     retrieveFromDB()

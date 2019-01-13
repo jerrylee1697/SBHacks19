@@ -17,8 +17,12 @@ def sms_reply():
     # Start our TwiML response
     resp = MessagingResponse()
 
+    connection = pymysql.connect(host='35.236.23.230',
+                             user='root',
+                             password='',
+                             db='businesses')
+    crsr = connection.cursor()
 
-    
     # if 'hello' in body:
     #     msg = "Hello! Thank you for contacting Hooties! How may I assist you today?"
     # elif 'menu' in body:
