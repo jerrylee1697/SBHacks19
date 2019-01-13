@@ -3,6 +3,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 import demo
 import json
 import datetime
+import pymysql
 
 app = Flask(__name__)
 
@@ -42,7 +43,7 @@ def sms_reply():
     records = crsr.fetchall()[0]
     # Uses index[0] because is tuple of tuple
     # Note: if you are looking at this, GL
-    
+
     # print(records[0])
 
     # name, phone, email, EId, cal, menu
