@@ -1,4 +1,5 @@
 # Genie - SBHacks 2019  ![build passing](https://img.shields.io/circleci/project/github/badges/shields/master.svg)
+### Code developed by: Jerry Lee, Kyle Semelka, Jeffrey Wong, Brandon Lam  
 ## Platform that allows access to specific, important information that are typically difficult to find
 ## Customer Usage:  
 Customers have either the option of texting the business phone number information or using our mobile application to find/select the business and message from there.
@@ -11,5 +12,11 @@ For our platform, we specifically built it to be used by restaurants, just to se
 We built a web application specifically for restaurants to be able to log in and easily input their information. 
 They could enter things such as their menu items, location, etc. Here we also integrated the Google Calendar API. 
 The resutaurants are given an option to integrate their Google Calendar into our database so if they have their business schedule set up on a calendar with what days they're open, the specific hours of each day, daily specials and special events, all of the data would be automatically stored by our database. Once there, the restaurant does not have to worry about it anymore because our software will automatically provide this information to customers when asked.
-## Code developed by: Jerry Lee, Kyle Semelka, Jeffrey Wong, Brandon Lam  
-## 
+
+## Technologies Used:  
+### Google Cloud Platform:  
+Google Cloud SQL  
+Google Cloud App Engine 
+Google Calendar API
+### Twilio  
+Twilio SMS text API
