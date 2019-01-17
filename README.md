@@ -16,7 +16,7 @@ The resutaurants are given an option to integrate their Google Calendar into our
 ## Technologies Used:  
 ### Google Cloud Platform:  
 Google Cloud SQL  
-Google Cloud App Engine 
+Google Cloud App Engine  
 Google Calendar API
 ### Twilio  
 Twilio SMS text API
