@@ -21,10 +21,10 @@ def sms_reply():
     # Start our TwiML response
     resp = MessagingResponse()
 
-    # connection = pymysql.connect(host='35.236.23.230',
-    #                         user='root',
+    # connection = pymysql.connect(host='ip address',
+    #                         user='root##',
     #                         password='',
-    #                         db='businesses')
+    #                         db='database_name')
     # crsr = connection.cursor()
 
     # # body = 'subway message hello'

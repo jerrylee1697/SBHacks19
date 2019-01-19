@@ -22,10 +22,10 @@ class Business:
 
 def sendToDB():
     # bus = Business('SubREEE', 1234567890, 'subway@aol.com', 5)
-    connection = pymysql.connect(host='35.236.23.230',
-                             user='root',
+    connection = pymysql.connect(host='IP_HERE',
+                             user='root_HERE',
                              password='',
-                             db='businesses')
+                             db='DATABASE_NAME')
     crsr = connection.cursor()
     name = input('Business Name: ').lower()
     phone = input('Phone Number: ')

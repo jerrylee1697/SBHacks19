@@ -60,10 +60,10 @@ def getEvents(creds):
         #     print(event['description'])
 
 def test():
-    connection = pymysql.connect(host='35.236.23.230',
-                             user='root',
+    connection = pymysql.connect(host='IP_HERE',
+                             user='root__HERE',
                              password='',
-                             db='businesses')
+                             db='DATABASE_NAME')
     crsr = connection.cursor()
 
     body = 'subway message hello'
